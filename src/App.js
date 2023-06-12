@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import MovieCard from "./MovieCard";
 import SearchIcon from "./search.svg";
+import "dotenv/config";
 
 const API_URL =
   "http://www.omdbapi.com?apikey=" + process.env.REACT_APP_API_URL;
