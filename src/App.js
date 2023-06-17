@@ -10,12 +10,26 @@ const API_URL =
 function App() {
   const [movies, setMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [error, setError] = useState(null);
 
   const searchMovies = async (title) => {
-    const response = await fetch(`${API_URL}&s=${title}`);
-    const data = await response.json();
+    try {
+      const response = await fetch(`${API_URL}&s=${title}`);
+      if (!response.ok) {
+        throw new Error("Request failed with status: " + response.status);
+      }
+      const data = await response.json();
 
-    setMovies(data.Search);
+      if (data.Response === "False") {
+        throw new Error(data.Error);
+      }
+
+      setMovies(data.Search);
+      setError(null);
+    } catch (error) {
+      setError(error.message);
+      setMovies([]);
+    }
   };
 
   useEffect(() => {
@@ -40,7 +54,11 @@ function App() {
         />
       </div>
 
-      {movies?.length > 0 ? (
+      {error ? (
+        <div className="error">
+          <h2>Error: {error}</h2>
+        </div>
+      ) : movies?.length > 0 ? (
         <div className="container">
           {movies.map((movie) => (
             <MovieCard movie={movie} key={movie.imdbID} />
