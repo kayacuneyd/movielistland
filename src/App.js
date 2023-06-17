@@ -5,7 +5,7 @@ import SearchIcon from "./search.svg";
 import "dotenv/config";
 
 const API_URL =
-  "http://www.omdbapi.com?apikey=" + process.env.REACT_APP_API_URL;
+  "http://www.omdbapi.com?apikey=81d2ff28";
 
 function App() {
   const [movies, setMovies] = useState([]);
